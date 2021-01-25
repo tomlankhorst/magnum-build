@@ -22,4 +22,5 @@ ln -s package/debian .
 dpkg-buildpackage
 dpkg -i ../magnum-integration*.deb
 
-cp ../*.deb /out
+tar -cvf /out/packages.tar.gz ../*.deb 
+
