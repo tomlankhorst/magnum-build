@@ -1,0 +1,4 @@
+.git
+*
+!packages
+!cmd.sh
