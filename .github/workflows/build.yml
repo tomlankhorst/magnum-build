@@ -17,12 +17,6 @@ jobs:
       with:
         submodules: 'recursive'
 
-    - name: Build for Bionic
-      run: ./build.sh bionic
-
-    - name: Build for Focal
-      run: ./build.sh focal
-
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -34,11 +28,30 @@ jobs:
         draft: false
         prerelease: false
 
-    - name: Upload Release Asset
-      id: upload-release-asset 
-      uses: alexellis/upload-assets@0.2.2
+    - name: Build for Bionic
+      run: ./build.sh bionic
+
+    - name: Upload Bionic
+      id: upload-bionic-release-asset 
+      uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        asset_paths: '["./focal/*.deb", "./bionic/*.deb"]'
         upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        asset_path: ./bionic/packages.tar.gz
+        asset_name: magnum-packages-bionic.tar.gz
+        asset_content_type: application/gzip
+
+    - name: Build for Focal
+      run: ./build.sh focal
+
+    - name: Upload Focal
+      id: upload-focal-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        asset_path: ./focal/packages.tar.gz
+        asset_name: magnum-packages-focal.tar.gz
+        asset_content_type: application/gzip
