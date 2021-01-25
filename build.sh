@@ -1,7 +1,4 @@
 #!/bin/bash
 
-docker build -t magnum-build-bionic --build-arg FROM_IMG=ubuntu:18.04 .
-docker run --rm -v$(pwd)/bionic:/out magnum-build-bionic
-
-docker build -t magnum-build-focal --build-arg FROM_IMG=ubuntu:20.04 .
-docker run --rm -v$(pwd)/focal:/out magnum-build-focal
+docker build -t magnum-build-$1 --build-arg FROM_IMG=ubuntu:$1 .
+docker run --rm -v$(pwd)/$1:/out magnum-build-bionic
